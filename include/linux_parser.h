@@ -56,7 +56,7 @@ enum ProcStates {
 };
 std::vector<std::string> CpuUtilization(int pid);
 long ActiveJiffies(int pid);
-long Jiffies(int pid);
+long StartTime(int pid);
 std::string Command(int pid);
 std::string Ram(int pid);
 std::string Uid(int pid);

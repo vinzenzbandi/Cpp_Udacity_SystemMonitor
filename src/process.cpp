@@ -11,52 +11,65 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-Process::Process(int id){
-    id_ = id;
-    user_ = LinuxParser::User(id);
-    command_ = LinuxParser::Command(id); 
-    ram_ = LinuxParser::Ram(id); 
-    upTime_ = LinuxParser::UpTime(id);//TODO
-    cpuUtilization_ = CalcUtilization();//TODO
+Process::Process(int id): id_(id){
+    user_ = LinuxParser::User(id_);
+    command_ = LinuxParser::Command(id_); 
+    ram_ = LinuxParser::Ram(id_); 
+    upTime_ = LinuxParser::UpTime(id_);
+    cpuUtilization_ = CalcUtilization();
 }
 
 float Process::CalcUtilization(){
-    long totalJiffies = LinuxParser::Jiffies(id_);
-    long processJiffies = LinuxParser::ActiveJiffies(id_);
-    return (float)processJiffies / (float)totalJiffies; 
+    float procSeconds;
+    long procJiffies = LinuxParser::ActiveJiffies(id_);
+    long startJiffies = LinuxParser::StartTime(id_);
+    long systemTime = LinuxParser::UpTime();
+
+    // diff since previous execution
+    long dProcJiffies = procJiffies - prevProcJiffies_;
+    long dStartJiffies = startJiffies - prevStartJiffies_;
+    long dSystemTime = systemTime - prevSystemTime_;
+
+    procSeconds = dSystemTime - (dStartJiffies / sysconf(_SC_CLK_TCK));
+
+    prevProcJiffies_ = procJiffies;
+    prevStartJiffies_ = startJiffies;
+    prevSystemTime_ = systemTime;
+    
+    return (dProcJiffies / sysconf(_SC_CLK_TCK)) / procSeconds;
 }
 
-// TODO: Return this process's ID
+// DONE: Return this process's ID
 int Process::Pid() const { 
     return id_;
 }
 
-// TODO: Return this process's CPU utilization
+// DONE: Return this process's CPU utilization
 float Process::CpuUtilization() const { 
     return cpuUtilization_;
 }
 
-// TODO: Return the command that generated this process
+// DONE: Return the command that generated this process
 string Process::Command() const { 
     return command_;
 }
 
-// TODO: Return this process's memory utilization
+// DONE: Return this process's memory utilization
 string Process::Ram() const { 
     return ram_;
  }
 
-// TODO: Return the user (name) that generated this process
+// DONE: Return the user (name) that generated this process
 string Process::User() const { 
     return user_;
  }
 
-// TODO: Return the age of this process (in seconds)
+// DONE: Return the age of this process (in seconds)
 long int Process::UpTime() const { 
     return upTime_;
 }
 
-// TODO: Overload the "less than" comparison operator for Process objects
+// DONE: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const { 
     return CpuUtilization() < a.CpuUtilization();

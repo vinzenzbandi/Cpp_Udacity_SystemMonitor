@@ -109,16 +109,16 @@ long LinuxParser::Jiffies() {
   return ActiveJiffies() + IdleJiffies();
 }
 
-long LinuxParser::Jiffies(int pid) {
+long LinuxParser::StartTime(int pid) {
   vector<string> statValues = CpuUtilization(pid);
   if (statValues.size() > 22){
     long startJiffies = stol(statValues[ProcStates::kStartTime]);
-    return LinuxParser::Jiffies() - startJiffies;
+    return startJiffies;
   }
-  return LinuxParser::Jiffies();
+  return 0;
 }
 
-// TODO: Read and return the number of active jiffies for a PID
+// DONE: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid) {
   long activeJiffies;
@@ -221,7 +221,7 @@ int LinuxParser::RunningProcesses() {
   return running;
 }
 
-// TODO: Read and return the command associated with a process
+// DONE: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Command(int pid) { 
   string line;
@@ -233,7 +233,7 @@ string LinuxParser::Command(int pid) {
   return line;
 }
 
-// TODO: Read and return the memory used by a process
+// DONE: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid) { 
   string line, key, value;
@@ -254,7 +254,7 @@ string LinuxParser::Ram(int pid) {
   return ram;
 }
 
-// TODO: Read and return the user ID associated with a process
+// DONE: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Uid(int pid) { 
   string line, key, value;
@@ -272,7 +272,7 @@ string LinuxParser::Uid(int pid) {
   return uid;
 }
 
-// TODO: Read and return the user associated with a process
+// DONE: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::User(int pid) { 
   string uid = LinuxParser::Uid(pid);
@@ -292,7 +292,7 @@ string LinuxParser::User(int pid) {
   return user;
 }
 
-// TODO: Read and return the uptime of a process
+// DONE: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid) {
   long sysUpTime = UpTime();
