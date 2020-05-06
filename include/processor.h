@@ -1,12 +1,21 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
-class Processor {
- public:
-  float Utilization();  // TODO: See src/processor.cpp
+#include <vector>
+#include <string>
+#include "linux_parser.h"
+using namespace std;
 
-  // TODO: Declare any necessary private members
- private:
+class Processor {
+    public:
+        float Utilization();  // DONE: See src/processor.cpp
+        float UtilizationDynamic();
+        void ParseCpuUtilization();
+
+    // DONE: Declare any necessary private members
+    private:
+        long prevActiveJiff_ = 0;
+        long prevTotalJiff_ = 0;
 };
 
 #endif
