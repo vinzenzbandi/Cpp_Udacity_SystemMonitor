@@ -106,7 +106,7 @@ long LinuxParser::UpTime() {
 
 // DONE: Read and return the number of jiffies for the system
 long LinuxParser::Jiffies() {
-  return LinuxParser::ActiveJiffies() + LinuxParser::IdleJiffies();
+  return ActiveJiffies() + IdleJiffies();
 }
 
 long LinuxParser::Jiffies(int pid) {
@@ -118,7 +118,7 @@ long LinuxParser::Jiffies(int pid) {
   return LinuxParser::Jiffies();
 }
 
-// DONE: Read and return the number of active jiffies for a PID
+// TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid) {
   long activeJiffies;

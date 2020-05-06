@@ -48,11 +48,11 @@ long IdleJiffies();
 
 // Processes
 enum ProcStates {
-  kUTime_ = 14,
-  kSTime_ = 15,
-  kCUTime_ = 16,
-  kCSTime_ = 17,
-  kStartTime = 22
+  kUTime_ = 13,
+  kSTime_ = 14,
+  kCUTime_ = 15,
+  kCSTime_ = 16,
+  kStartTime = 21
 };
 std::vector<std::string> CpuUtilization(int pid);
 long ActiveJiffies(int pid);
