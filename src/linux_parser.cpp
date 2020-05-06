@@ -246,7 +246,7 @@ string LinuxParser::Ram(int pid) {
       linestream >> key >> value;
       if (key == "VmSize:"){
         ramKb = stoi(value);
-        ram = to_string(ramKb / 1000) + " MB";
+        ram = to_string(ramKb / 1000);
         return ram;
       }
     }
